@@ -1,14 +1,14 @@
 "use client";
 
 import { useRef, useCallback } from "react";
+import { LanguageProvider } from "@/hooks/useLanguage";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Benefits from "@/components/Features";
-
+import Ecosystem from "@/components/Ecosystem";
+import FlowBook from "@/components/FlowBook";
+import FlowLearn from "@/components/FlowLearn";
+import FlowStorage from "@/components/FlowStorage";
 import HowItWorks from "@/components/HowItWorks";
-
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 
@@ -30,33 +30,35 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <LanguageProvider>
+      <div className="noise-overlay" />
       <Navbar />
       <div ref={containerRef} className="snap-container">
         <section id="hero">
           <Hero onScrollNext={scrollToNext} />
         </section>
-        <section id="about">
-          <About />
+        <section id="ekosistem">
+          <Ecosystem />
         </section>
-        <section id="benefits">
-          <Benefits />
+        <section id="flow-book">
+          <FlowBook />
         </section>
-        <section id="hizmetler">
-          <Services />
+        <section id="flow-learn">
+          <FlowLearn />
         </section>
-
+        <section id="flow-storage">
+          <FlowStorage />
+        </section>
         <section id="nasil-calisir">
           <HowItWorks />
         </section>
-
-        <section id="iletisim">
+<section id="iletisim">
           <CTA />
         </section>
         <section id="footer">
           <Footer />
         </section>
       </div>
-    </>
+    </LanguageProvider>
   );
 }

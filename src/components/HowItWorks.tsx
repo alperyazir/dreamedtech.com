@@ -1,171 +1,59 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
 import useReveal from "@/hooks/useReveal";
-
-const steps = [
-  {
-    id: 1,
-    label: "ADIM 1",
-    title: "Keşfet",
-    titleItalic: "Analiz Et",
-    description: "Okulunuzun müfredatına uygun dijital içeriklere anında erişin. Sınıflarınızı oluşturun ve öğrencilerinizi platforma ekleyin. Mevcut eğitim materyallerinizi analiz ederek en uygun dijital dönüşüm stratejisini belirliyoruz.",
-    visual: (
-      <div className="space-y-3">
-        <div className="rounded-xl p-4" style={{ background: "var(--el-bg-alt)", border: "1px solid var(--el-border)" }}>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "var(--bar-bg)" }}>
-              <svg className="w-4 h-4" style={{ color: "var(--text-white-30)" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </div>
-            <div className="h-2.5 w-32 rounded" style={{ background: "var(--bar-bg)" }} />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {["Matematik", "Fen Bilgisi", "Türkçe", "Sosyal"].map((s) => (
-              <div key={s} className="p-2.5 rounded-lg text-center text-[11px]" style={{ background: "var(--el-bg)", border: "1px solid var(--bar-bg)", color: "var(--text-white-30)" }}>{s}</div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 2,
-    label: "ADIM 2",
-    title: "Etkileşimli",
-    titleItalic: "Öğren",
-    description: "Öğrenciler video, animasyon, mini oyunlar ve AI destekli aktivitelerle konuları derinlemesine öğrenir. Her öğrencinin seviyesine göre kişiselleştirilmiş içerikler sunar.",
-    visual: (
-      <div className="space-y-3">
-        <div className="rounded-xl p-4" style={{ background: "var(--el-bg-alt)", border: "1px solid var(--el-border)" }}>
-          <div className="text-[11px] mb-3" style={{ color: "var(--text-white-30)" }}>Öğrenme İlerlemesi</div>
-          <div className="space-y-2.5">
-            {[
-              { label: "Video", pct: 84 },
-              { label: "AI Aktivite", pct: 94 },
-              { label: "Oyunlar", pct: 88 },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-3">
-                <span className="text-[10px] w-16 shrink-0" style={{ color: "var(--text-white-30)" }}>{item.label}</span>
-                <div className="flex-1 h-1.5 rounded-full" style={{ background: "var(--bar-bg)" }}>
-                  <div className="h-full rounded-full" style={{ width: `${item.pct}%`, background: "var(--bar-fill)" }} />
-                </div>
-                <span className="text-[10px] w-8 text-right" style={{ color: "var(--text-white-30)" }}>{item.pct}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex gap-3">
-          {[{ v: "3.6K", l: "Öğrenci" }, { v: "2M+", l: "İçerik" }].map((s) => (
-            <div key={s.l} className="flex-1 rounded-lg p-3 text-center" style={{ background: "var(--el-bg-alt)", border: "1px solid var(--bar-bg)" }}>
-              <div className="text-[16px] font-medium" style={{ color: "var(--stat-value)" }}>{s.v}</div>
-              <div className="text-[10px] mt-0.5" style={{ color: "var(--icon-color)" }}>{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 3,
-    label: "ADIM 3",
-    title: "Optimize Et",
-    titleItalic: "& Ölçekle",
-    description: "Detaylı analitik ve raporlarla öğrenci gelişimini takip edin. Performans verilerini kullanarak eğitim stratejinizi sürekli iyileştirin ve büyütün.",
-    visual: (
-      <div className="space-y-3">
-        <div className="rounded-xl p-4" style={{ background: "var(--el-bg-alt)", border: "1px solid var(--el-border)" }}>
-          <div className="text-[11px] mb-3" style={{ color: "var(--text-white-30)" }}>Büyüme & Verimlilik</div>
-          <div className="flex items-end gap-1 h-16 mb-4">
-            {[30, 45, 35, 55, 50, 70, 65, 80, 75, 90, 85, 95].map((h, i) => (
-              <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: "var(--bar-fill)" }} />
-            ))}
-          </div>
-          <div className="space-y-2">
-            {[
-              { l: "Başarı Oranı", p: 84 },
-              { l: "Tamamlama", p: 94 },
-              { l: "Memnuniyet", p: 88 },
-            ].map((item) => (
-              <div key={item.l} className="flex items-center gap-3">
-                <span className="text-[10px] w-20 shrink-0" style={{ color: "var(--text-white-30)" }}>{item.l}</span>
-                <div className="flex-1 h-1.5 rounded-full" style={{ background: "var(--bar-bg)" }}>
-                  <div className="h-full rounded-full" style={{ width: `${item.p}%`, background: "var(--bar-fill)" }} />
-                </div>
-                <span className="text-[10px] w-8 text-right" style={{ color: "var(--text-white-30)" }}>{item.p}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    ),
-  },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 export default function HowItWorks() {
-  const [active, setActive] = useState(0);
-  const [progress, setProgress] = useState(0);
   const sectionRef = useReveal();
+  const { t } = useLanguage();
 
-  const nextStep = useCallback(() => {
-    setActive((p) => (p + 1) % steps.length);
-    setProgress(0);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 100) { nextStep(); return 0; }
-        return p + 2;
-      });
-    }, 100);
-    return () => clearInterval(interval);
-  }, [nextStep]);
+  const steps = [
+    { number: "01", title: t("how.s1.title") as string, subtitle: t("how.s1.sub") as string, description: t("how.s1.desc") as string, accent: "var(--accent-storage)", details: [t("how.s1.d1") as string, t("how.s1.d2") as string, t("how.s1.d3") as string] },
+    { number: "02", title: t("how.s2.title") as string, subtitle: t("how.s2.sub") as string, description: t("how.s2.desc") as string, accent: "var(--accent-learn)", details: [t("how.s2.d1") as string, t("how.s2.d2") as string, t("how.s2.d3") as string] },
+    { number: "03", title: t("how.s3.title") as string, subtitle: t("how.s3.sub") as string, description: t("how.s3.desc") as string, accent: "var(--accent-learn)", details: [t("how.s3.d1") as string, t("how.s3.d2") as string, t("how.s3.d3") as string] },
+    { number: "04", title: t("how.s4.title") as string, subtitle: t("how.s4.sub") as string, description: t("how.s4.desc") as string, accent: "var(--accent-book)", details: [t("how.s4.d1") as string, t("how.s4.d2") as string, t("how.s4.d3") as string] },
+    { number: "05", title: t("how.s5.title") as string, subtitle: t("how.s5.sub") as string, description: t("how.s5.desc") as string, accent: "var(--accent)", details: [t("how.s5.d1") as string, t("how.s5.d2") as string, t("how.s5.d3") as string] },
+  ];
 
   return (
-    <section className="relative py-14 lg:py-20">
+    <section className="relative py-24 lg:py-32">
       <div className="divider" />
-      <div ref={sectionRef} className="max-w-[1100px] mx-auto px-6 pt-14">
-        <div className="text-center mb-12 reveal-item">
-          <h2 className="font-medium leading-[1.2] tracking-[-0.01em] mb-4" style={{ fontSize: "clamp(28px, 4vw, 44px)", color: "var(--text-heading)" }}>
-            Basit & <span className="serif-italic" style={{ color: "var(--text-muted)" }}>Akıllı Süreç</span>
+      <div ref={sectionRef} className="max-w-[1200px] mx-auto px-6 pt-16">
+        <div className="text-center mb-16 reveal-item">
+          <div className="mb-4"><span className="badge">{t("how.badge") as string}</span></div>
+          <h2 className="font-semibold leading-[1.15] tracking-[-0.02em] mb-5" style={{ fontSize: "clamp(28px, 4vw, 48px)", color: "var(--text-heading)" }}>
+            {t("how.title1") as string}{" "}
+            <span className="serif-italic font-normal" style={{ color: "var(--text-muted)" }}>{t("how.title2") as string}</span>
           </h2>
-          <p className="text-[16px] leading-[1.6] tracking-[-0.02em] max-w-lg mx-auto" style={{ color: "var(--text-muted)" }}>
-            İş birliği yapmak, oluşturmak ve ölçeklendirmek için ihtiyacınız olan her şey tek bir yerde.
-          </p>
+          <p className="text-[16px] leading-[1.7] max-w-xl mx-auto" style={{ color: "var(--text-muted)" }}>{t("how.subtitle") as string}</p>
         </div>
 
-        <div className="landio-card p-6 lg:p-8 reveal-item">
-          <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="relative max-w-3xl mx-auto">
+          <div className="absolute left-5 lg:left-6 top-0 bottom-0 w-px hidden md:block" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="space-y-6">
             {steps.map((step, i) => (
-              <button
-                key={step.id}
-                onClick={() => { setActive(i); setProgress(0); }}
-                className={`process-tab ${active === i ? "active" : ""}`}
-              >
-                {active === i && (
-                  <div className="progress-bar" style={{ width: `${progress}%` }} />
-                )}
-                {step.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <div>{steps[active].visual}</div>
-            <div className="flex flex-col justify-center">
-              <div className="text-[12px] mb-2" style={{ color: "var(--text-subtle)" }}>
-                {String(steps[active].id).padStart(2, "0")}
+              <div key={step.number} className="glass-card p-6 lg:p-7 md:ml-14 reveal-item relative" style={{ transitionDelay: `${i * 100}ms` }}>
+                <div className="hidden md:flex absolute -left-14 top-6 w-11 h-11 rounded-xl items-center justify-center text-[14px] font-bold"
+                  style={{ background: `color-mix(in srgb, ${step.accent} 12%, transparent)`, color: step.accent, border: `1px solid color-mix(in srgb, ${step.accent} 20%, transparent)` }}>{step.number}</div>
+                <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="md:hidden text-[12px] font-bold" style={{ color: step.accent }}>{step.number}</span>
+                      <span className="text-[11px] font-medium" style={{ color: step.accent, opacity: 0.7 }}>{step.subtitle}</span>
+                    </div>
+                    <h3 className="text-[18px] font-semibold tracking-[-0.01em] mb-2" style={{ color: "var(--text-heading)" }}>{step.title}</h3>
+                    <p className="text-[14px] leading-[1.7]" style={{ color: "var(--text-muted)" }}>{step.description}</p>
+                  </div>
+                  <div className="mt-4 lg:mt-0 lg:w-64 flex-shrink-0 space-y-2">
+                    {step.details.map((d) => (
+                      <div key={d} className="flex items-center gap-2 text-[12px]" style={{ color: "var(--text-subtle)" }}>
+                        <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: step.accent }} />{d}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <h3 className="text-[22px] font-medium mb-4 tracking-[-0.01em]" style={{ color: "var(--text-heading)" }}>
-                {steps[active].title}{" "}
-                <span className="serif-italic" style={{ color: "var(--text-muted)" }}>
-                  {steps[active].titleItalic}
-                </span>
-              </h3>
-              <p className="text-[14px] leading-[1.6] tracking-[-0.01em]" style={{ color: "var(--text-muted)" }}>
-                {steps[active].description}
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
